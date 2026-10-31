@@ -5,6 +5,11 @@
    ========================================================================== */
 
 const CONFIG = {
+  // URL webové aplikace Google Apps Script (končí na /exec).
+  // Pokud je prázdná, data formuláře se jen vypíšou do konzole.
+  FORM_ENDPOINT:
+    "https://script.google.com/macros/s/AKfycbztZmkVTTaNs-T2pnh-exa3rgyFYxsiQAdYIlYq8z3ohxybMfFPaljtmelRzCKKcdGz3Q/exec",
+
   project: {
     author: "Miloslava Dočkalová",
   },
@@ -76,17 +81,14 @@ const CONFIG = {
 
   contact: {
     intro: "[DOPLNIT] Máte dotaz k výstavě nebo se chcete zapojit do výzkumu? Napište nám.",
-    email: "doplnit@mapaslasti.cz",                  // [DOPLNIT]
-    instagram: "https://www.instagram.com/doplnit/", // [DOPLNIT]
-    instagramLabel: "@doplnit",                      // [DOPLNIT]
+    email: "info@mapaslasti.cz",
+    thesisUrl:
+      "https://showcase.fmk.utb.cz/en/arts-management/sexy-silver-intimacy-and-sexuality-of-seniors-in-residential-social-care-facilities/",
+    thesisLabel: "Diplomová práce",
     privacyNote:
       "[DOPLNIT] Osobní údaje (jméno, e-mail a obsah zprávy) zpracovává Miloslava Dočkalová výhradně za účelem odpovědi na vaši zprávu, případně vašeho zapojení do výzkumu. Údaje nepředáváme třetím stranám a uchováváme je nejdéle [DOPLNIT] měsíců. Souhlas můžete kdykoli odvolat e-mailem.",
   },
 };
-
-// URL pro odeslání formuláře (např. Formspree, Google Apps Script, vlastní PHP skript).
-// Pokud je prázdná, data se jen vypíšou do konzole.
-const FORM_ENDPOINT = "";
 
 const IMG_THUMBS = "img/thumbs/";
 const IMG_FULL = "img/full/";
@@ -240,9 +242,9 @@ function renderContact(config) {
   email.href = `mailto:${c.email}`;
   email.textContent = c.email;
 
-  const ig = $("#footer-instagram");
-  ig.href = c.instagram;
-  ig.textContent = `Instagram ${c.instagramLabel}`;
+  const thesis = $("#footer-thesis");
+  thesis.href = c.thesisUrl;
+  thesis.textContent = c.thesisLabel;
 
   $("#year").textContent = new Date().getFullYear();
 }
@@ -408,30 +410,29 @@ function setupForm() {
       return;
     }
 
-    const data = {
-      type: formData.get("type"),
-      typeLabel: $("#f-type").selectedOptions[0].textContent,
-      name: formData.get("name").trim(),
+    const data = new URLSearchParams({
+      typ: formData.get("type"),
+      jmeno: formData.get("name").trim(),
       email: formData.get("email").trim(),
-      message: formData.get("message").trim(),
-      consent: true,
-      sentAt: new Date().toISOString(),
-    };
+      zprava: formData.get("message").trim(),
+      souhlas: $("#f-consent").checked ? "ano" : "",
+      website: formData.get("website") || "",
+    });
 
     submit.disabled = true;
     submit.textContent = "Odesílám…";
     setStatus("Odesílám zprávu…", null);
 
     try {
-      if (!FORM_ENDPOINT) {
-        console.log("[Sexy Silver] FORM_ENDPOINT není nastaven, data formuláře:", data);
+      const endpoint = CONFIG.FORM_ENDPOINT;
+      if (!endpoint) {
+        console.log("[Sexy Silver] FORM_ENDPOINT není nastaven, data formuláře:", Object.fromEntries(data));
       } else {
-        const res = await fetch(FORM_ENDPOINT, {
-          method: "POST",
-          headers: { "Content-Type": "application/json", Accept: "application/json" },
-          body: JSON.stringify(data),
-        });
+        // Bez vlastních hlaviček → "simple request", žádný CORS preflight
+        const res = await fetch(endpoint, { method: "POST", body: data });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const json = await res.json();
+        if (!json || json.ok !== true) throw new Error(json?.error || "Neznámá chyba serveru");
       }
       form.reset();
       checks.forEach((check) => check.el.removeAttribute("aria-invalid"));
