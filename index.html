@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sexy Silver – výstava | Minka Dočkalová</title>
+  <meta name="description" content="Sexy Silver je výzkumný a výstavní projekt Minky Dočkalové o intimitě a sexualitě seniorek a seniorů v domovech pro seniory. Audiostopy, fotografie z výstavy a zapojení do výzkumu.">
+  <meta name="author" content="Minka Dočkalová">
+  <meta name="theme-color" content="#1F4E8C">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="cs_CZ">
+  <meta property="og:site_name" content="Sexy Silver">
+  <meta property="og:title" content="Sexy Silver – výstava | Minka Dočkalová">
+  <meta property="og:description" content="Výzkumný a výstavní projekt o intimitě a sexualitě seniorek a seniorů v domovech pro seniory.">
+  <meta property="og:url" content="https://mapaslasti.cz/">
+  <!-- Sociální sítě vyžadují absolutní URL obrázku -->
+  <meta property="og:image" content="https://mapaslasti.cz/img/full/IMG_0283.jpg">
+  <meta property="og:image:alt" content="Růžový telefon na posteli s kyanotypovým povlečením">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicon: růžový telefon na kyanotypové modré -->
+  <link rel="icon" href="img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+
+  <!-- Hero fotka se načítá přednostně -->
+  <link rel="preload" as="image" href="img/full/IMG_0283.jpg"
+        imagesrcset="img/thumbs/IMG_0283.jpg 800w, img/full/IMG_0283.jpg 1800w" imagesizes="(min-width: 900px) 62vw, 100vw">
+
+  <!-- Fonty -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Inter:wght@400;500;600&display=swap">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip-link" href="#obsah">Přeskočit na obsah</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="#top">Sexy Silver</a>
+      <nav aria-label="Hlavní navigace">
+        <ul class="nav">
+          <li><a href="#vystava">Výstava</a></li>
+          <li><a href="#audio">Audio</a></li>
+          <li><a href="#fotky">Fotky</a></li>
+          <li><a href="#kontakt">Kontakt</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main id="obsah">
+    <!-- 1. Hero výstavy -->
+    <section class="hero" id="top" aria-labelledby="exhibition-title">
+      <figure class="hero__media">
+        <img class="hero__image" id="hero-image" alt="" width="1800" height="1234"
+             fetchpriority="high" decoding="async" sizes="(min-width: 900px) 62vw, 100vw">
+      </figure>
+      <div class="container hero__inner">
+        <div class="hero__body">
+          <p class="eyebrow" data-bind="eyebrow"></p>
+          <h1 class="hero__title" id="exhibition-title" data-bind="title"></h1>
+          <p class="hero__subtitle" data-bind="subtitle"></p>
+          <dl class="hero__meta">
+            <div>
+              <dt>Kde</dt>
+              <dd><span data-bind="venue"></span><br><span class="hero__address" data-bind="address"></span></dd>
+            </div>
+            <div>
+              <dt>Kdy</dt>
+              <dd data-bind="dates"></dd>
+            </div>
+          </dl>
+          <a class="button button--large" href="#audio">Poslechnout audiostopy</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mapa místa pod herem -->
+    <div class="container hero-map">
+      <div class="map-wrap">
+        <div class="map" id="map">
+          <iframe id="map-frame" title="Mapa – místo konání výstavy" loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+        <a class="map-link" id="map-link" href="#" target="_blank" rel="noopener">Otevřít v mapách ↗</a>
+      </div>
+    </div>
+
+    <!-- 2. Anotace -->
+    <section class="section" id="vystava" aria-labelledby="annotation-title">
+      <div class="container container--narrow">
+        <h2 class="section__title" id="annotation-title">O výstavě</h2>
+        <div class="prose" id="annotation"></div>
+      </div>
+    </section>
+
+    <!-- 3. Audiostopy (hlavní účel webu na výstavě) -->
+    <section class="section section--blue" id="audio" aria-labelledby="audio-title">
+      <div class="container container--narrow">
+        <h2 class="section__title" id="audio-title">Audiostopy</h2>
+        <p class="section__lead" data-bind="audioIntro"></p>
+        <ol class="tracks" id="tracks"></ol>
+      </div>
+    </section>
+
+    <!-- 4. Z výstavy – galerie -->
+    <section class="section" id="fotky" aria-labelledby="gallery-title">
+      <div class="container">
+        <h2 class="section__title" id="gallery-title">Z výstavy</h2>
+        <ul class="gallery" id="gallery"></ul>
+      </div>
+    </section>
+
+    <!-- 5. Kontaktní formulář -->
+    <section class="section section--light" id="kontakt" aria-labelledby="contact-title">
+      <div class="container container--narrow">
+        <h2 class="section__title" id="contact-title">Kontakt</h2>
+        <p class="section__lead" data-bind="contactIntro"></p>
+
+        <form class="form" id="contact-form" novalidate>
+          <div class="field">
+            <label for="f-type">Typ zprávy</label>
+            <select id="f-type" name="type" required>
+              <option value="obecny-dotaz">Obecný dotaz</option>
+              <option value="zapojeni-do-vyzkumu">Chci se zapojit do výzkumu / mapování slasti</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="f-name">Jméno</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required>
+            <p class="field__error" id="f-name-error" hidden>Vyplňte prosím své jméno.</p>
+          </div>
+
+          <div class="field">
+            <label for="f-email">E-mail</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+            <p class="field__error" id="f-email-error" hidden>Zadejte prosím platný e-mail.</p>
+          </div>
+
+          <div class="field">
+            <label for="f-message">Zpráva</label>
+            <textarea id="f-message" name="message" rows="6" required></textarea>
+            <p class="field__error" id="f-message-error" hidden>Napište prosím zprávu.</p>
+          </div>
+
+          <!-- Honeypot proti spamu – skryté pole, člověk ho nevyplní -->
+          <div class="hp" aria-hidden="true">
+            <label for="f-website">Web</label>
+            <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+          </div>
+
+          <div class="field field--checkbox">
+            <input id="f-consent" name="consent" type="checkbox" required aria-describedby="privacy-note">
+            <label for="f-consent">Souhlasím se zpracováním osobních údajů.</label>
+          </div>
+          <p class="field__error" id="f-consent-error" hidden>Pro odeslání je potřeba souhlas se zpracováním osobních údajů.</p>
+          <p class="form__note" id="privacy-note" data-bind="privacyNote"></p>
+
+          <button class="button" type="submit" id="f-submit">Odeslat zprávu</button>
+          <p class="form__status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- 6. Patička -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <ul class="footer-links">
+        <li><a id="footer-email" href="#"></a></li>
+        <li><a id="footer-instagram" href="#" target="_blank" rel="noopener"></a></li>
+        <li><a id="footer-author" href="#" target="_blank" rel="noopener"></a></li>
+      </ul>
+      <p>© <span id="year"></span> <span data-bind="author"></span></p>
+    </div>
+  </footer>
+
+  <!-- Lightbox galerie -->
+  <dialog class="lightbox" id="lightbox" aria-label="Fotografie z výstavy">
+    <figure class="lightbox__figure">
+      <img class="lightbox__image" id="lightbox-image" alt="">
+      <figcaption class="lightbox__caption">
+        <span id="lightbox-caption"></span>
+        <span class="lightbox__counter" id="lightbox-counter"></span>
+      </figcaption>
+    </figure>
+    <button class="lightbox__btn lightbox__close" type="button" id="lightbox-close" aria-label="Zavřít">×</button>
+    <button class="lightbox__btn lightbox__prev" type="button" id="lightbox-prev" aria-label="Předchozí fotografie">‹</button>
+    <button class="lightbox__btn lightbox__next" type="button" id="lightbox-next" aria-label="Další fotografie">›</button>
+  </dialog>
+
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Sexy Silver: růžový telefon na kyanotypové modré -->
+  <rect width="64" height="64" rx="14" fill="#1F4E8C"/>
+  <g fill="#E8338A">
+    <!-- sluchátko -->
+    <path d="M7 27.5C7 19 18.5 14 32 14s25 5 25 13.5V31a2.5 2.5 0 0 1-2.5 2.5h-8A2.5 2.5 0 0 1 44 31v-2.5c-3-1.6-7-2.5-12-2.5s-9 .9-12 2.5V31a2.5 2.5 0 0 1-2.5 2.5h-8A2.5 2.5 0 0 1 7 31z"/>
+    <!-- tělo telefonu -->
+    <path d="M22 31h20a3 3 0 0 1 2.8 1.9l6 15.5A3.5 3.5 0 0 1 47.5 53h-31a3.5 3.5 0 0 1-3.3-4.6l6-15.5A3 3 0 0 1 22 31z"/>
+  </g>
+  <!-- číselník -->
+  <circle cx="32" cy="43" r="7.5" fill="#1F4E8C"/>
+  <circle cx="32" cy="43" r="2.6" fill="#E8338A"/>
+</svg>
