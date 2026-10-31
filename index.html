@@ -3,16 +3,16 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Sexy Silver – výstava | Minka Dočkalová</title>
-  <meta name="description" content="Sexy Silver je výzkumný a výstavní projekt Minky Dočkalové o intimitě a sexualitě seniorek a seniorů v domovech pro seniory. Audiostopy, fotografie z výstavy a zapojení do výzkumu.">
-  <meta name="author" content="Minka Dočkalová">
+  <title>Sexy Silver – výstava | Miloslava Dočkalová</title>
+  <meta name="description" content="Sexy Silver je výzkumný a výstavní projekt Miloslavy Dočkalové o intimitě a sexualitě seniorek a seniorů v domovech pro seniory. Audiostopy, fotografie z výstavy a zapojení do výzkumu.">
+  <meta name="author" content="Miloslava Dočkalová">
   <meta name="theme-color" content="#1F4E8C">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:locale" content="cs_CZ">
   <meta property="og:site_name" content="Sexy Silver">
-  <meta property="og:title" content="Sexy Silver – výstava | Minka Dočkalová">
+  <meta property="og:title" content="Sexy Silver – výstava | Miloslava Dočkalová">
   <meta property="og:description" content="Výzkumný a výstavní projekt o intimitě a sexualitě seniorek a seniorů v domovech pro seniory.">
   <meta property="og:url" content="https://mapaslasti.cz/">
   <!-- Sociální sítě vyžadují absolutní URL obrázku -->
@@ -64,7 +64,7 @@
         <div class="hero__body">
           <p class="eyebrow" data-bind="eyebrow"></p>
           <h1 class="hero__title" id="exhibition-title" data-bind="title"></h1>
-          <p class="hero__subtitle" data-bind="subtitle"></p>
+          <div class="hero__subtitle" id="hero-subtitle"></div>
           <dl class="hero__meta">
             <div>
               <dt>Kde</dt>
@@ -72,7 +72,7 @@
             </div>
             <div>
               <dt>Kdy</dt>
-              <dd data-bind="dates"></dd>
+              <dd><span data-bind="dates"></span><br><span class="hero__vernissage" id="hero-vernissage"></span></dd>
             </div>
           </dl>
           <a class="button button--large" href="#audio">Poslechnout audiostopy</a>

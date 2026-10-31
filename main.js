@@ -6,13 +6,16 @@
 
 const CONFIG = {
   project: {
-    author: "Minka Dočkalová",
+    author: "Miloslava Dočkalová",
     authorWeb: "https://vendulabezakova.github.io/minka-dockalova/",
   },
 
   exhibition: {
     title: "Sexy Silver",
-    subtitle: "Výzkumný a výstavní projekt o intimitě a sexualitě seniorek a seniorů v domovech pro seniory.",
+    // Perex pod nadpisem; \n = nový odstavec
+    subtitle:
+      "Jak může vypadat intimita a sexualita seniorů v domovech pro seniory? A proč je důležité se o tom bavit?\n" +
+      "Přijďte nahlédnout a zažít interaktivní výstavu výzkumnice a výtvarnice Miloslavy Dočkalové, která se tomuto tématu věnuje.",
     venue: "[DOPLNIT] Název galerie / místa, Praha",
     address: "[DOPLNIT] Ulice 123, 110 00 Praha 1",
     // Mapa z Mapy.com: Sdílet → Vložit do webu → zkopírovat URL z atributu src iframu
@@ -22,6 +25,8 @@ const CONFIG = {
     // Datum ve formátu RRRR-MM-DD
     dateFrom: "2026-11-15", // [DOPLNIT]
     dateTo: "2027-01-31",   // [DOPLNIT]
+    // Volitelný řádek pod datem (prázdný string = nezobrazí se)
+    vernissage: "Vernisáž 12. 11. 2026 v 18 hodin",
     hero: {
       file: "IMG_0283.jpg", // soubor z img/full/ (a img/thumbs/ pro mobily)
       alt: "Růžový telefon s číselníkem na posteli s kyanotypovým povlečením",
@@ -76,7 +81,7 @@ const CONFIG = {
     instagram: "https://www.instagram.com/doplnit/", // [DOPLNIT]
     instagramLabel: "@doplnit",                      // [DOPLNIT]
     privacyNote:
-      "[DOPLNIT] Osobní údaje (jméno, e-mail a obsah zprávy) zpracovává Minka Dočkalová výhradně za účelem odpovědi na vaši zprávu, případně vašeho zapojení do výzkumu. Údaje nepředáváme třetím stranám a uchováváme je nejdéle [DOPLNIT] měsíců. Souhlas můžete kdykoli odvolat e-mailem.",
+      "[DOPLNIT] Osobní údaje (jméno, e-mail a obsah zprávy) zpracovává Miloslava Dočkalová výhradně za účelem odpovědi na vaši zprávu, případně vašeho zapojení do výzkumu. Údaje nepředáváme třetím stranám a uchováváme je nejdéle [DOPLNIT] měsíců. Souhlas můžete kdykoli odvolat e-mailem.",
   },
 };
 
@@ -104,6 +109,11 @@ function el(tag, className, text) {
   return node;
 }
 
+// Jednopísmenné předložky a spojky (v, s, k, z, o, u, a, i) nesmí zůstat na konci řádku
+function nbsp(text) {
+  return text.replace(/(^|\s)([vskzouaiVSKZOUAI])\s+/g, "$1$2\u00a0");
+}
+
 function formatDateRange(from, to) {
   const parse = (s) => {
     const [y, m, d] = s.split("-").map(Number);
@@ -123,10 +133,15 @@ function renderExhibition(config) {
   const ex = config.exhibition;
   bind("eyebrow", `Výstava · ${config.project.author}`);
   bind("title", ex.title);
-  bind("subtitle", ex.subtitle);
+  $("#hero-subtitle").replaceChildren(
+    ...ex.subtitle.split("\n").map((text) => el("p", "", nbsp(text)))
+  );
   bind("venue", ex.venue);
   bind("address", ex.address);
   bind("dates", formatDateRange(ex.dateFrom, ex.dateTo));
+  const vernissage = $("#hero-vernissage");
+  if (ex.vernissage) vernissage.textContent = nbsp(ex.vernissage);
+  else vernissage.hidden = true;
 
   const hero = $("#hero-image");
   hero.srcset = `${IMG_THUMBS}${ex.hero.file} 800w, ${IMG_FULL}${ex.hero.file} 1800w`;

@@ -214,6 +214,8 @@ a:hover { color: var(--color-pink-strong); }
   color: var(--color-blue);
   margin-bottom: var(--space-l);
 }
+.hero__subtitle p { margin-bottom: var(--space-s); }
+.hero__subtitle p:last-child { margin-bottom: 0; }
 
 .hero__meta {
   display: grid;
@@ -236,6 +238,7 @@ a:hover { color: var(--color-pink-strong); }
   font-weight: 600;
 }
 .hero__address { font-weight: 400; font-size: var(--fs-small); color: var(--color-muted); }
+.hero__vernissage { font-weight: 600; font-size: var(--fs-small); color: var(--color-pink-strong); }
 
 .hero-map { padding-bottom: var(--space-s); }
 
