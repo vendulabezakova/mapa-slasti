@@ -7,7 +7,6 @@
 const CONFIG = {
   project: {
     author: "Miloslava Dočkalová",
-    authorWeb: "https://vendulabezakova.github.io/minka-dockalova/",
   },
 
   exhibition: {
@@ -244,10 +243,6 @@ function renderContact(config) {
   const ig = $("#footer-instagram");
   ig.href = c.instagram;
   ig.textContent = `Instagram ${c.instagramLabel}`;
-
-  const author = $("#footer-author");
-  author.href = config.project.authorWeb;
-  author.textContent = `Web autorky ↗`;
 
   $("#year").textContent = new Date().getFullYear();
 }
