@@ -108,10 +108,10 @@
       </div>
     </section>
 
-    <!-- 4. Z výstavy – galerie -->
+    <!-- 4. Galerie (nadpis v CONFIG.galleryTitle) -->
     <section class="section" id="fotky" aria-labelledby="gallery-title">
       <div class="container">
-        <h2 class="section__title" id="gallery-title">Z výstavy</h2>
+        <h2 class="section__title" id="gallery-title" data-bind="galleryTitle"></h2>
         <ul class="gallery" id="gallery"></ul>
       </div>
     </section>
@@ -126,8 +126,8 @@
           <div class="field">
             <label for="f-type">Typ zprávy</label>
             <select id="f-type" name="type" required>
-              <option value="obecny-dotaz">Obecný dotaz</option>
-              <option value="zapojeni-do-vyzkumu">Chci se zapojit do výzkumu / mapování slasti</option>
+              <option value="Obecný dotaz">Obecný dotaz</option>
+              <option value="Chci se zapojit do výzkumu / mapování slasti">Chci se zapojit do výzkumu / mapování slasti</option>
             </select>
           </div>
 

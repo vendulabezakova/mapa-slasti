@@ -8,7 +8,7 @@ const CONFIG = {
   // URL webové aplikace Google Apps Script (končí na /exec).
   // Pokud je prázdná, data formuláře se jen vypíšou do konzole.
   FORM_ENDPOINT:
-    "https://script.google.com/macros/s/AKfycbztZmkVTTaNs-T2pnh-exa3rgyFYxsiQAdYIlYq8z3ohxybMfFPaljtmelRzCKKcdGz3Q/exec",
+    "https://script.google.com/macros/s/AKfycbyYLgf0ooYWeYjOlMfRiO4DddubpMvOfoJrvqhQaQyIYya1bLRi9MJkKtvuyxAp10f5/exec",
 
   project: {
     author: "Miloslava Dočkalová",
@@ -54,29 +54,16 @@ const CONFIG = {
     ],
   },
 
+  galleryTitle: "Z minulých instalací",
   // Soubory musí existovat se stejným názvem v img/thumbs/ i img/full/.
   // caption je volitelný popisek pod fotkou v lightboxu.
   gallery: [
-    { file: "IMG_0283.jpg", alt: "Růžový telefon s číselníkem na posteli s kyanotypovým povlečením" },
-    { file: "IMG_0291.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "IMG_0293.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "IMG_0294.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "IMG_0305.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "IMG_0306.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "IMG_0307.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "IMG_0308.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "IMG_0310.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "IMG_0312.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "IMG_0315.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "JMV_2635.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "JMV_2637.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "JMV_4669.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "JMV_4676.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "JMV_4694.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "JMV_4754.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "JMV_4833.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "JMV_4837.jpg", alt: "[DOPLNIT] Popis fotografie" },
-    { file: "JMV_4838.jpg", alt: "[DOPLNIT] Popis fotografie" },
+    { file: "IMG_0294.jpg", alt: "Kyanotypie: váza s květinami na stole a růžový nápis POŘÁDEK" },
+    { file: "IMG_0307.jpg", alt: "Kyanotypie: portrét staršího muže v pruhované košili s rukou u tváře, doplněný růžovým textem" },
+    { file: "IMG_0293.jpg", alt: "Rozostřená kyanotypie zmačkaného povlečení s opakovaným růžovým nápisem ODDĚLENÍ" },
+    { file: "IMG_0306.jpg", alt: "Rozostřená kyanotypie postav s růžovými nápisy MUŽI a ŽENY" },
+    { file: "IMG_0312.jpg", alt: "Detail kyanotypie s nepravidelnými okraji a sytě modrou strukturou" },
+    { file: "JMV_4694.jpg", alt: "Rozhovor návštěvnic na vernisáži před stěnou s ručně psaným růžovým textem" },
   ],
 
   contact: {
@@ -86,7 +73,7 @@ const CONFIG = {
       "https://showcase.fmk.utb.cz/en/arts-management/sexy-silver-intimacy-and-sexuality-of-seniors-in-residential-social-care-facilities/",
     thesisLabel: "Diplomová práce",
     privacyNote:
-      "[DOPLNIT] Osobní údaje (jméno, e-mail a obsah zprávy) zpracovává Miloslava Dočkalová výhradně za účelem odpovědi na vaši zprávu, případně vašeho zapojení do výzkumu. Údaje nepředáváme třetím stranám a uchováváme je nejdéle [DOPLNIT] měsíců. Souhlas můžete kdykoli odvolat e-mailem.",
+      "Správkyní osobních údajů je Minka Dočkalová (kontakt: info@mapaslasti.cz). Osobní údaje (jméno, e-mail a obsah zprávy) zpracovává výhradně za účelem odpovědi na vaši zprávu, případně vašeho zapojení do výzkumu. Údaje nepředáváme třetím stranám a uchováváme je nejdéle [DOPLNIT] měsíců. Souhlas můžete kdykoli odvolat e-mailem na info@mapaslasti.cz.",
   },
 };
 
@@ -272,6 +259,7 @@ function renderContact(config) {
 /* --- Galerie a lightbox -------------------------------------------------- */
 
 function setupGallery(config) {
+  bind("galleryTitle", config.galleryTitle);
   const photos = config.gallery;
   const list = $("#gallery");
   const dialog = $("#lightbox");

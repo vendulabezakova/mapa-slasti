@@ -400,7 +400,7 @@ a:hover { color: var(--color-pink-strong); }
   border-radius: calc(var(--radius) * 0.6);
   overflow: hidden;
   cursor: zoom-in;
-  aspect-ratio: 1;
+  aspect-ratio: 1 / 1;
 }
 
 .gallery__item img {
@@ -709,6 +709,3 @@ html.is-locked { overflow: hidden; }
   .map { height: 360px; }
 }
 
-@media (min-width: 64em) {
-  .gallery { grid-template-columns: repeat(4, 1fr); }
-}
