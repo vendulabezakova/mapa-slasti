@@ -25,16 +25,15 @@
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="img/apple-touch-icon.png">
 
-  <!-- Hero fotka se načítá přednostně -->
-  <link rel="preload" as="image" href="img/full/IMG_0283.jpg"
-        imagesrcset="img/thumbs/IMG_0283.jpg 800w, img/full/IMG_0283.jpg 1800w" imagesizes="(min-width: 900px) 62vw, 100vw">
+  <!-- Hero fotka se načítá přednostně (stejné srcset/sizes jako <img> v heru) -->
+  <link rel="preload" as="image" type="image/webp" fetchpriority="high"
+        imagesrcset="img/hero-800.webp 800w, img/hero-1200.webp 1200w, img/hero-1800.webp 1800w" imagesizes="(min-width: 900px) 62vw, 100vw">
 
-  <!-- Fonty -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600&family=Inter:wght@400;500;600&display=swap">
+  <!-- Fonty hostované lokálně (fonts/, @font-face ve style.css) – žádné Google Fonts -->
+  <link rel="preload" href="fonts/oswald-latin.woff2" as="font" type="font/woff2" crossorigin>
 
   <link rel="stylesheet" href="style.css">
+  <script src="main.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#obsah">Přeskočit na obsah</a>
@@ -57,8 +56,12 @@
     <!-- 1. Hero výstavy -->
     <section class="hero" id="top" aria-labelledby="exhibition-title">
       <figure class="hero__media">
-        <img class="hero__image" id="hero-image" alt="" width="1800" height="1234"
-             fetchpriority="high" decoding="async" sizes="(min-width: 900px) 62vw, 100vw">
+        <img class="hero__image" id="hero-image"
+             src="img/hero-1200.webp"
+             srcset="img/hero-800.webp 800w, img/hero-1200.webp 1200w, img/hero-1800.webp 1800w"
+             sizes="(min-width: 900px) 62vw, 100vw"
+             width="1800" height="1234" fetchpriority="high"
+             alt="Růžový telefon s číselníkem na posteli s kyanotypovým povlečením">
       </figure>
       <div class="container hero__inner">
         <div class="hero__body">
@@ -195,6 +198,5 @@
     <button class="lightbox__btn lightbox__next" type="button" id="lightbox-next" aria-label="Další fotografie">›</button>
   </dialog>
 
-  <script src="main.js"></script>
 </body>
 </html>

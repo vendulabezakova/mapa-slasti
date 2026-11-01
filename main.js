@@ -35,10 +35,6 @@ const CONFIG = {
     // Odkaz na událost na Facebooku pod vernisáží (prázdný string = nezobrazí se).
     // Jen obyčejný odkaz, žádný vložený widget (kvůli cookies).
     facebookEventUrl: "https://www.facebook.com/events/1673226277100060/",
-    hero: {
-      file: "IMG_0283.jpg", // soubor z img/full/ (a img/thumbs/ pro mobily)
-      alt: "Růžový telefon s číselníkem na posteli s kyanotypovým povlečením",
-    },
     // První odstavec se zobrazí zvýrazněný jako úvodní
     annotation: [
       "Potřeba blízkosti, doteku a soukromí s věkem nemizí. Sexy Silver se věnuje intimitě, touze a sexualitě ve stáří se zaměřením na život v domovech pro seniory. Otevírá otázky, jaký prostor zde tyto potřeby dostávají a co jejich naplňování může bránit.",
@@ -60,7 +56,7 @@ const CONFIG = {
   },
 
   galleryTitle: "Z minulých instalací",
-  // Soubory musí existovat se stejným názvem v img/thumbs/ i img/full/.
+  // Soubory: img/full/NAZEV.jpg (lightbox) a img/thumbs/NAZEV.webp (náhled 600 × 600).
   // caption je volitelný popisek pod fotkou v lightboxu.
   gallery: [
     { file: "IMG_0294.jpg", alt: "Kyanotypie: váza s květinami na stole a růžový nápis POŘÁDEK" },
@@ -144,11 +140,6 @@ function renderExhibition(config) {
     event.hidden = false;
   }
 
-  const hero = $("#hero-image");
-  hero.srcset = `${IMG_THUMBS}${ex.hero.file} 800w, ${IMG_FULL}${ex.hero.file} 1800w`;
-  hero.src = IMG_FULL + ex.hero.file;
-  hero.alt = ex.hero.alt;
-
   $("#annotation").replaceChildren(...ex.annotation.map((text) => el("p", "", nbsp(text))));
 }
 
@@ -170,7 +161,8 @@ function renderTracks(config) {
   bind("audioIntro", intro);
   document.querySelectorAll('[data-bind="audioIntro"]').forEach((node) => (node.hidden = !intro));
   const list = $("#tracks");
-  const artwork = new URL(IMG_THUMBS + config.exhibition.hero.file, location.href).href;
+  // Hero fotka je staticky v index.html (img/hero-*.webp) kvůli rychlosti načtení
+  const artwork = new URL("img/hero-800.webp", location.href).href;
 
   list.replaceChildren(
     ...config.audio.tracks.map((track, i) => {
@@ -240,7 +232,7 @@ function renderTracks(config) {
           title: current.dataset.title,
           artist: config.project.author,
           album: config.exhibition.title,
-          artwork: [{ src: artwork, sizes: "800x800", type: "image/jpeg" }],
+          artwork: [{ src: artwork, sizes: "800x548", type: "image/webp" }],
         });
       }
     },
@@ -290,12 +282,13 @@ function setupGallery(config) {
       button.setAttribute("aria-label", `Zvětšit fotografii ${i + 1} z ${photos.length}`);
 
       const img = document.createElement("img");
-      img.src = IMG_THUMBS + photo.file;
+      // Náhled: čtvercový WebP 600 × 600 se stejným názvem jako fotka (lightbox dál otevírá img/full/*.jpg)
+      img.src = IMG_THUMBS + photo.file.replace(/\.jpe?g$/i, ".webp");
       img.alt = photo.alt;
       img.loading = "lazy";
       img.decoding = "async";
-      img.width = 800;
-      img.height = 800;
+      img.width = 600;
+      img.height = 600;
 
       button.append(img);
       button.addEventListener("click", () => open(i, button));
