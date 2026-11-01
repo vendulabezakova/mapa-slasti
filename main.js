@@ -18,28 +18,30 @@ const CONFIG = {
     title: "Sexy Silver",
     // Perex pod nadpisem; \n = nový odstavec
     subtitle:
-      "Jak může vypadat intimita a sexualita seniorů v domovech pro seniory? A proč je důležité se o tom bavit?\n" +
-      "Přijďte nahlédnout a zažít interaktivní výstavu výzkumnice a výtvarnice Miloslavy Dočkalové, která se tomuto tématu věnuje.",
-    venue: "[DOPLNIT] Název galerie / místa, Praha",
-    address: "[DOPLNIT] Ulice 123, 110 00 Praha 1",
+      "Jak vypadá intimita, touha a sexualita ve stáří? Mají lidé žijící v domovech pro seniory dostatek prostoru pro blízkost a soukromí? " +
+      "Výstava Sexy Silver výzkumnice a výtvarnice Miloslavy Dočkalové otevírá téma, o kterém se stále příliš málo mluví. " +
+      "Prostřednictvím uměleckého výzkumu zve k překonávání stereotypů a novému pohledu na intimitu ve stáří.",
+    venue: "Galerie Kreativní Prahy",
+    address: "Staroměstské náměstí 4/1, 110 00 Praha",
     // Mapa z Mapy.com: Sdílet → Vložit do webu → zkopírovat URL z atributu src iframu
     mapEmbedUrl: "https://mapy.com/s/dujedovobo",
     // Odkaz „Otevřít v mapách“ pod mapkou (např. sdílecí odkaz z Mapy.com)
     mapLinkUrl: "https://mapy.com/cs/turisticka?source=addr&id=9108273&x=14.4199357&y=50.0866288&z=17",
-    // Datum ve formátu RRRR-MM-DD
-    dateFrom: "2026-11-15", // [DOPLNIT]
-    dateTo: "2027-01-31",   // [DOPLNIT]
+    // Datum ve formátu RRRR-MM-DD; endDate je volitelný (null = zobrazí se jen „od …“)
+    startDate: "2026-11-12",
+    endDate: null,
     // Volitelný řádek pod datem (prázdný string = nezobrazí se)
     vernissage: "Vernisáž 12. 11. 2026 v 18 hodin",
     hero: {
       file: "IMG_0283.jpg", // soubor z img/full/ (a img/thumbs/ pro mobily)
       alt: "Růžový telefon s číselníkem na posteli s kyanotypovým povlečením",
     },
+    // První odstavec se zobrazí zvýrazněný jako úvodní
     annotation: [
-      "[DOPLNIT] Úvodní odstavec anotace. O čem je Sexy Silver – intimita, touha a blízkost ve stáří a v prostředí domovů pro seniory.",
-      "[DOPLNIT] Druhý odstavec. Jak výzkum probíhal: rozhovory, návštěvy domovů, spolupráce s klientkami, klienty a personálem.",
-      "[DOPLNIT] Třetí odstavec. Co výstava ukazuje – kyanotypie, objekty, zvukové nahrávky – a jak ji procházet.",
-      "[DOPLNIT] Čtvrtý odstavec. Autorka, spolupracovníci, partneři a podpora projektu.",
+      "Potřeba blízkosti, doteku a soukromí s věkem nemizí. Sexy Silver se věnuje intimitě, touze a sexualitě ve stáří se zaměřením na život v domovech pro seniory. Otevírá otázky, jaký prostor zde tyto potřeby dostávají a co jejich naplňování může bránit.",
+      "Projekt vychází z uměleckého výzkumu, který propojuje rozhovory, návštěvy domovů pro seniory a kreativní spolupráci s jejich klientkami a klienty. Výstava přináší různé pohledy na blízkost ve stáří a vybízí k přemýšlení o tom, jak ji ovlivňuje prostředí, v němž žijeme.",
+      "Fotografie, objekty (vyřazené lůžkoviny z domovů, starý telefon) a zvukové nahrávky převádějí téma výzkumu do vizuální, hmotné a zvukové podoby. Výstava je pozváním k vnímání zkušeností druhých i k reflexi vlastních představ o stárnutí, tělesnosti a intimitě.",
+      "Projekt vznikl jako diplomová práce na Fakultě multimediálních komunikací Univerzity Tomáše Bati ve Zlíně (FMK UTB) a v roce 2025 získal Cenu děkana FMK UTB. Téma intimity a vztahu k vlastnímu tělu autorka dále rozpracovává v rámci doktorského studia.",
     ],
   },
 
@@ -67,13 +69,13 @@ const CONFIG = {
   ],
 
   contact: {
-    intro: "[DOPLNIT] Máte dotaz k výstavě nebo se chcete zapojit do výzkumu? Napište nám.",
+    intro: "Máte dotaz k výstavě nebo se chcete zapojit do výzkumu? Napište nám.",
     email: "info@mapaslasti.cz",
     thesisUrl:
       "https://showcase.fmk.utb.cz/en/arts-management/sexy-silver-intimacy-and-sexuality-of-seniors-in-residential-social-care-facilities/",
     thesisLabel: "Diplomová práce",
     privacyNote:
-      "Správkyní osobních údajů je Minka Dočkalová (kontakt: info@mapaslasti.cz). Osobní údaje (jméno, e-mail a obsah zprávy) zpracovává výhradně za účelem odpovědi na vaši zprávu, případně vašeho zapojení do výzkumu. Údaje nepředáváme třetím stranám a uchováváme je nejdéle [DOPLNIT] měsíců. Souhlas můžete kdykoli odvolat e-mailem na info@mapaslasti.cz.",
+      "Správkyní osobních údajů je Miloslava Dočkalová (kontakt: info@mapaslasti.cz). Osobní údaje (jméno, e-mail a obsah zprávy) zpracovává výhradně za účelem odpovědi na vaši zprávu, případně vašeho zapojení do výzkumu. Údaje jsou uloženy ve službách Google (Google Workspace / Gmail), nikomu dalšímu je nepředáváme a uchováváme je nejdéle 12 měsíců. Souhlas můžete kdykoli odvolat e-mailem na info@mapaslasti.cz.",
   },
 };
 
@@ -107,9 +109,10 @@ function formatDateRange(from, to) {
     const [y, m, d] = s.split("-").map(Number);
     return new Date(y, m - 1, d);
   };
-  const a = parse(from);
-  const b = parse(to);
   const full = new Intl.DateTimeFormat("cs-CZ", { day: "numeric", month: "long", year: "numeric" });
+  const a = parse(from);
+  if (!to) return `od ${full.format(a)}`;
+  const b = parse(to);
   const noYear = new Intl.DateTimeFormat("cs-CZ", { day: "numeric", month: "long" });
   const start = a.getFullYear() === b.getFullYear() ? noYear.format(a) : full.format(a);
   return `${start} – ${full.format(b)}`;
@@ -126,7 +129,7 @@ function renderExhibition(config) {
   );
   bind("venue", ex.venue);
   bind("address", ex.address);
-  bind("dates", formatDateRange(ex.dateFrom, ex.dateTo));
+  bind("dates", formatDateRange(ex.startDate, ex.endDate));
   const vernissage = $("#hero-vernissage");
   if (ex.vernissage) vernissage.textContent = nbsp(ex.vernissage);
   else vernissage.hidden = true;
@@ -136,7 +139,7 @@ function renderExhibition(config) {
   hero.src = IMG_FULL + ex.hero.file;
   hero.alt = ex.hero.alt;
 
-  $("#annotation").replaceChildren(...ex.annotation.map((text) => el("p", "", text)));
+  $("#annotation").replaceChildren(...ex.annotation.map((text) => el("p", "", nbsp(text))));
 }
 
 function renderMap(config) {

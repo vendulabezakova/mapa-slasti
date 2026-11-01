@@ -1,6 +1,6 @@
 # Sexy Silver — výstava | mapaslasti.cz
 
-Web k výstavě **Sexy Silver** autorky Minky Dočkalové, výzkumného a výstavního projektu o intimitě a sexualitě seniorek a seniorů v domovech pro seniory.
+Web k výstavě **Sexy Silver** autorky Miloslavy Dočkalové, výzkumného a výstavního projektu o intimitě a sexualitě seniorek a seniorů v domovech pro seniory.
 
 Web slouží návštěvníkům přímo na výstavě: QR kód v instalaci vede na stránku s informacemi o výstavě, audiostopami k poslechu v telefonu, fotkami a kontaktním formulářem. Později na doméně vznikne web projektu **Mapa slastí**.
 
