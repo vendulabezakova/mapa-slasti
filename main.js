@@ -32,6 +32,9 @@ const CONFIG = {
     endDate: null,
     // Volitelný řádek pod datem (prázdný string = nezobrazí se)
     vernissage: "Vernisáž 12. 11. 2026 v 18 hodin",
+    // Odkaz na událost na Facebooku pod vernisáží (prázdný string = nezobrazí se).
+    // Jen obyčejný odkaz, žádný vložený widget (kvůli cookies).
+    facebookEventUrl: "https://www.facebook.com/events/1673226277100060/",
     hero: {
       file: "IMG_0283.jpg", // soubor z img/full/ (a img/thumbs/ pro mobily)
       alt: "Růžový telefon s číselníkem na posteli s kyanotypovým povlečením",
@@ -133,6 +136,13 @@ function renderExhibition(config) {
   const vernissage = $("#hero-vernissage");
   if (ex.vernissage) vernissage.textContent = nbsp(ex.vernissage);
   else vernissage.hidden = true;
+
+  const event = $("#hero-event");
+  const eventUrl = ex.facebookEventUrl?.trim();
+  if (eventUrl) {
+    event.href = eventUrl;
+    event.hidden = false;
+  }
 
   const hero = $("#hero-image");
   hero.srcset = `${IMG_THUMBS}${ex.hero.file} 800w, ${IMG_FULL}${ex.hero.file} 1800w`;

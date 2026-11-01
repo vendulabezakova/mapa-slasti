@@ -239,6 +239,16 @@ a:hover { color: var(--color-pink-strong); }
 }
 .hero__address { font-weight: 400; font-size: var(--fs-small); color: var(--color-muted); }
 .hero__vernissage { font-weight: 600; font-size: var(--fs-small); color: var(--color-pink-strong); }
+/* Sekundární odkaz – obyčejný podtržený text, nekonkuruje hlavnímu tlačítku */
+.hero__event {
+  display: table;                 /* vlastní řádek pod vernisáží */
+  margin-top: 0.25rem;
+  padding-block: 0.25rem;
+  font-size: var(--fs-small);
+  font-weight: 400;
+  text-decoration: underline;
+}
+.hero__event[hidden] { display: none; }
 
 .hero-map { padding-bottom: var(--space-s); }
 
