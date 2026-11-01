@@ -44,13 +44,13 @@ const CONFIG = {
   },
 
   audio: {
-    intro: "[DOPLNIT] Doporučujeme poslouchat ve sluchátkách. Stopy můžete pouštět v libovolném pořadí.",
-    // file = cesta k MP3 ve složce audio/; description je volitelný
+    // Úvodní text je volitelný – prázdný řetězec se nevykreslí
+    intro: "Doporučujeme poslouchat ve sluchátkách.",
+    // file = cesta k MP3 ve složce audio/; description je volitelný (prázdný se nevykreslí)
     tracks: [
-      { title: "[DOPLNIT] Název první stopy", description: "[DOPLNIT] Krátký popis stopy.", file: "audio/01.mp3" },
-      { title: "[DOPLNIT] Název druhé stopy", description: "", file: "audio/02.mp3" },
-      { title: "[DOPLNIT] Název třetí stopy", description: "[DOPLNIT] Krátký popis stopy.", file: "audio/03.mp3" },
-      { title: "[DOPLNIT] Název čtvrté stopy", description: "", file: "audio/04.mp3" },
+      { title: "Nahrávka 1", description: "", file: "audio/nahravka-1.mp3" },
+      { title: "Nahrávka 2", description: "", file: "audio/nahravka-2.mp3" },
+      { title: "Nahrávka 3", description: "", file: "audio/nahravka-3.mp3" },
     ],
   },
 
@@ -166,7 +166,9 @@ function renderMap(config) {
 }
 
 function renderTracks(config) {
-  bind("audioIntro", config.audio.intro);
+  const intro = config.audio.intro?.trim() ?? "";
+  bind("audioIntro", intro);
+  document.querySelectorAll('[data-bind="audioIntro"]').forEach((node) => (node.hidden = !intro));
   const list = $("#tracks");
   const artwork = new URL(IMG_THUMBS + config.exhibition.hero.file, location.href).href;
 
@@ -181,22 +183,40 @@ function renderTracks(config) {
       const title = el("h3", "track__title", track.title);
       title.id = titleId;
 
-      li.append(number, title);
-      if (track.description) li.append(el("p", "track__desc", track.description));
+      // Délka se doplní z metadat audia; do té doby zůstane skrytá
+      const duration = el("span", "track__duration");
+      duration.hidden = true;
+
+      const heading = el("div", "track__heading");
+      heading.append(title, duration);
+
+      li.append(number, heading);
+      const description = track.description?.trim();
+      if (description) li.append(el("p", "track__desc", description));
 
       const audio = document.createElement("audio");
       audio.controls = true;
-      audio.preload = "none";
-      audio.src = track.file;
+      audio.preload = "metadata"; // načte jen hlavičku souboru kvůli délce, ne celé audio
       audio.setAttribute("aria-labelledby", titleId);
       audio.dataset.title = track.title;
-      audio.textContent = "Váš prohlížeč nepodporuje přehrávání zvuku.";
-      li.append(audio);
 
-      audio.addEventListener("error", () => {
+      audio.addEventListener("loadedmetadata", () => {
+        if (!Number.isFinite(audio.duration)) return;
+        duration.textContent = `${Math.max(1, Math.round(audio.duration / 60))} min`;
+        duration.hidden = false;
+      });
+
+      // U <source> se chyba načtení hlásí na prvku source, ne na audio
+      const source = document.createElement("source");
+      source.src = track.file;
+      source.type = "audio/mpeg";
+      source.addEventListener("error", () => {
         if (li.querySelector(".track__error")) return;
         li.append(el("p", "track__error", "Stopu se nepodařilo načíst. Zkontrolujte připojení a zkuste to znovu."));
       });
+
+      audio.append(source, "Váš prohlížeč nepodporuje přehrávání zvuku.");
+      li.append(audio);
 
       return li;
     })
