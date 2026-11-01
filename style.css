@@ -56,6 +56,9 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: var(--header-h);
   -webkit-text-size-adjust: 100%;
+  overscroll-behavior: none;
+  /* Při přetažení za okraj stránky prosvítá nahoře barva navigace, dole barva patičky */
+  background: linear-gradient(to bottom, var(--color-blue) 50%, var(--color-blue-dark) 50%);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -65,7 +68,8 @@ html {
 
 body {
   margin: 0;
-  background: var(--color-bg);
+  overscroll-behavior: none;
+  background: var(--color-bg);    /* vlastní bílé pozadí – gradient z html je vidět jen při overscrollu */
   color: var(--color-text);
   font-family: var(--font-body);
   font-size: var(--fs-base);
