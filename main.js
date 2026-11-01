@@ -48,10 +48,11 @@ const CONFIG = {
     // Úvodní text je volitelný – prázdný řetězec se nevykreslí
     intro: "Doporučujeme poslouchat ve sluchátkách.",
     // file = cesta k MP3 ve složce audio/; description je volitelný (prázdný se nevykreslí)
+    // duration = pevný text délky (prázdný se nevykreslí); audio se před přehráním nestahuje
     tracks: [
-      { title: "Nahrávka 1", description: "", file: "audio/nahravka-1.mp3" },
-      { title: "Nahrávka 2", description: "", file: "audio/nahravka-2.mp3" },
-      { title: "Nahrávka 3", description: "", file: "audio/nahravka-3.mp3" },
+      { title: "Nahrávka 1", duration: "16 min", description: "", file: "audio/nahravka-1.mp3" },
+      { title: "Nahrávka 2", duration: "11 min", description: "", file: "audio/nahravka-2.mp3" },
+      { title: "Nahrávka 3", duration: "19 min", description: "", file: "audio/nahravka-3.mp3" },
     ],
   },
 
@@ -175,12 +176,10 @@ function renderTracks(config) {
       const title = el("h3", "track__title", track.title);
       title.id = titleId;
 
-      // Délka se doplní z metadat audia; do té doby zůstane skrytá
-      const duration = el("span", "track__duration");
-      duration.hidden = true;
-
       const heading = el("div", "track__heading");
-      heading.append(title, duration);
+      heading.append(title);
+      const duration = track.duration?.trim();
+      if (duration) heading.append(el("span", "track__duration", duration));
 
       li.append(number, heading);
       const description = track.description?.trim();
@@ -188,15 +187,9 @@ function renderTracks(config) {
 
       const audio = document.createElement("audio");
       audio.controls = true;
-      audio.preload = "metadata"; // načte jen hlavičku souboru kvůli délce, ne celé audio
+      audio.preload = "none"; // nic se nestahuje, dokud uživatel nespustí přehrávání
       audio.setAttribute("aria-labelledby", titleId);
       audio.dataset.title = track.title;
-
-      audio.addEventListener("loadedmetadata", () => {
-        if (!Number.isFinite(audio.duration)) return;
-        duration.textContent = `${Math.max(1, Math.round(audio.duration / 60))} min`;
-        duration.hidden = false;
-      });
 
       // U <source> se chyba načtení hlásí na prvku source, ne na audio
       const source = document.createElement("source");
