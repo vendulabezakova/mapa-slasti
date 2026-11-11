@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sexy Silver – exhibition | Miloslava Dočkalová</title>
+  <meta name="description" content="Sexy Silver is a research and exhibition project by Miloslava Dočkalová on intimacy, desire and sexuality in later life among older adults living in residential care homes. Photographs from the exhibition and how to take part in the research.">
+  <meta name="author" content="Miloslava Dočkalová">
+  <meta name="theme-color" content="#1f4e8c"> <!-- = --color-blue (navigace) -->
+
+  <!-- Jazykové verze: anglická (tato) a česká / -->
+  <link rel="canonical" href="https://mapaslasti.cz/en/">
+  <link rel="alternate" hreflang="cs" href="https://mapaslasti.cz/">
+  <link rel="alternate" hreflang="en" href="https://mapaslasti.cz/en/">
+  <link rel="alternate" hreflang="x-default" href="https://mapaslasti.cz/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:locale:alternate" content="cs_CZ">
+  <meta property="og:site_name" content="Sexy Silver">
+  <meta property="og:title" content="Sexy Silver – exhibition | Miloslava Dočkalová">
+  <meta property="og:description" content="A research and exhibition project on intimacy, desire and sexuality in later life among older adults living in residential care homes.">
+  <meta property="og:url" content="https://mapaslasti.cz/en/">
+  <!-- Sociální sítě vyžadují absolutní URL obrázku -->
+  <meta property="og:image" content="https://mapaslasti.cz/img/full/IMG_0283.jpg">
+  <meta property="og:image:alt" content="A pink telephone on a bed with cyanotype bed linen">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Favicon: růžový telefon na kyanotypové modré (sdílené s českou verzí) -->
+  <link rel="icon" href="../img/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="../img/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
+
+  <!-- Hero fotka se načítá přednostně (stejné srcset/sizes jako <img> v heru) -->
+  <link rel="preload" as="image" type="image/webp" fetchpriority="high"
+        imagesrcset="../img/hero-800.webp 800w, ../img/hero-1200.webp 1200w, ../img/hero-1800.webp 1800w" imagesizes="(min-width: 900px) 62vw, 100vw">
+
+  <!-- Fonty hostované lokálně (fonts/, @font-face ve style.css) – žádné Google Fonts -->
+  <link rel="preload" href="../fonts/oswald-latin.woff2" as="font" type="font/woff2" crossorigin>
+
+  <link rel="stylesheet" href="../style.css?v=4">
+  <script src="../main.js?v=3" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#content">Skip to content</a>
+
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="#top">Sexy Silver</a>
+      <nav aria-label="Main navigation">
+        <ul class="nav">
+          <li><a href="#exhibition">Exhibition</a></li>
+          <li><a href="#photos">Photos</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <nav class="lang-switch" aria-label="Language">
+        <a href="https://mapaslasti.cz/" hreflang="cs" lang="cs">CZ</a><span aria-hidden="true">|</span><a href="https://mapaslasti.cz/en/" hreflang="en" lang="en" aria-current="page">EN</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="content">
+    <!-- 1. Hero výstavy -->
+    <section class="hero" id="top" aria-labelledby="exhibition-title">
+      <figure class="hero__media">
+        <img class="hero__image" id="hero-image"
+             src="../img/hero-1200.webp"
+             srcset="../img/hero-800.webp 800w, ../img/hero-1200.webp 1200w, ../img/hero-1800.webp 1800w"
+             sizes="(min-width: 900px) 62vw, 100vw"
+             width="1800" height="1234" fetchpriority="high"
+             alt="A pink rotary telephone on a bed with cyanotype bed linen">
+      </figure>
+      <div class="container hero__inner">
+        <div class="hero__body">
+          <p class="eyebrow" data-bind="eyebrow"></p>
+          <h1 class="hero__title" id="exhibition-title" data-bind="title"></h1>
+          <div class="hero__subtitle" id="hero-subtitle"></div>
+          <dl class="hero__meta">
+            <div>
+              <dt>Where</dt>
+              <dd><span data-bind="venue"></span><br><span class="hero__address" data-bind="address"></span></dd>
+            </div>
+            <div>
+              <dt>When</dt>
+              <dd><span data-bind="dates"></span><br><span class="hero__vernissage" id="hero-vernissage"></span>
+                <a class="hero__event" id="hero-event" href="#" target="_blank" rel="noopener" hidden>Facebook event ↗</a></dd>
+            </div>
+          </dl>
+          <a class="button button--large" href="#exhibition">About the exhibition</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mapa místa pod herem -->
+    <div class="container hero-map">
+      <div class="map-wrap">
+        <div class="map" id="map">
+          <iframe id="map-frame" title="Map – exhibition venue" loading="lazy"
+                  referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+        </div>
+        <a class="map-link" id="map-link" href="#" target="_blank" rel="noopener">Open in maps ↗</a>
+      </div>
+    </div>
+
+    <!-- 2. Anotace + odkaz na české audio (anglická verze nahrávky nemá) -->
+    <section class="section" id="exhibition" aria-labelledby="annotation-title">
+      <div class="container container--narrow">
+        <h2 class="section__title" id="annotation-title">About the exhibition</h2>
+        <div class="prose" id="annotation"></div>
+        <p class="audio-note">The audio recordings from the research are available in Czech only.
+          <a href="https://mapaslasti.cz/#audio" hreflang="cs">Listen on the Czech website →</a></p>
+      </div>
+    </section>
+
+    <!-- 3. Galerie (nadpis v CONFIG_EN.galleryTitle) -->
+    <section class="section section--light" id="photos" aria-labelledby="gallery-title">
+      <div class="container">
+        <h2 class="section__title" id="gallery-title" data-bind="galleryTitle"></h2>
+        <ul class="gallery" id="gallery"></ul>
+      </div>
+    </section>
+
+    <!-- 4. Kontaktní formulář -->
+    <section class="section" id="contact" aria-labelledby="contact-title">
+      <div class="container container--narrow">
+        <h2 class="section__title" id="contact-title">Contact</h2>
+        <p class="section__lead" data-bind="contactIntro"></p>
+
+        <form class="form" id="contact-form" novalidate>
+          <div class="field">
+            <label for="f-type">Type of message</label>
+            <!-- Hodnoty (value) zůstávají české kvůli jednotným záznamům v Google tabulce -->
+            <select id="f-type" name="type" required>
+              <option value="Obecný dotaz">General enquiry</option>
+              <option value="Chci se zapojit do výzkumu / mapování slasti">I'd like to take part in the research / mapping of pleasure</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="f-name">Name</label>
+            <input id="f-name" name="name" type="text" autocomplete="name" required>
+            <p class="field__error" id="f-name-error" hidden>Please enter your name.</p>
+          </div>
+
+          <div class="field">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" autocomplete="email" inputmode="email" required>
+            <p class="field__error" id="f-email-error" hidden>Please enter a valid email address.</p>
+          </div>
+
+          <div class="field">
+            <label for="f-message">Message</label>
+            <textarea id="f-message" name="message" rows="6" required></textarea>
+            <p class="field__error" id="f-message-error" hidden>Please write a message.</p>
+          </div>
+
+          <!-- Honeypot proti spamu – skryté pole, člověk ho nevyplní -->
+          <div class="hp" aria-hidden="true">
+            <label for="f-website">Website (leave blank)</label>
+            <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off" aria-hidden="true">
+          </div>
+
+          <div class="field field--checkbox">
+            <input id="f-consent" name="consent" type="checkbox" required aria-describedby="privacy-note">
+            <label for="f-consent">I agree to the processing of my personal data.</label>
+          </div>
+          <p class="field__error" id="f-consent-error" hidden>To send your message, please agree to the processing of your personal data.</p>
+          <p class="form__note" id="privacy-note" data-bind="privacyNote"></p>
+
+          <button class="button" type="submit" id="f-submit">Send message</button>
+          <p class="form__status" id="form-status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- 5. Patička -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <ul class="footer-links">
+        <li><a id="footer-email" href="#"></a></li>
+        <li><a id="footer-thesis" href="#" target="_blank" rel="noopener"></a></li>
+      </ul>
+      <p>© <span id="year"></span> <span data-bind="author"></span></p>
+    </div>
+  </footer>
+
+  <!-- Lightbox galerie -->
+  <dialog class="lightbox" id="lightbox" aria-label="Photographs from the exhibition">
+    <figure class="lightbox__figure">
+      <img class="lightbox__image" id="lightbox-image" alt="">
+      <figcaption class="lightbox__caption">
+        <span id="lightbox-caption"></span>
+        <span class="lightbox__counter" id="lightbox-counter"></span>
+      </figcaption>
+    </figure>
+    <button class="lightbox__btn lightbox__close" type="button" id="lightbox-close" aria-label="Close">×</button>
+    <button class="lightbox__btn lightbox__prev" type="button" id="lightbox-prev" aria-label="Previous photograph">‹</button>
+    <button class="lightbox__btn lightbox__next" type="button" id="lightbox-next" aria-label="Next photograph">›</button>
+  </dialog>
+
+</body>
+</html>
