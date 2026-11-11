@@ -1,0 +1,32 @@
+# mapaslasti.cz – rychlost načítání
+
+# Komprese textových souborů (HTML, CSS, JS, SVG)
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/plain text/css application/javascript text/javascript image/svg+xml application/json
+</IfModule>
+
+# Doba platnosti mezipaměti (cache)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresDefault "access plus 1 hour"
+
+  # HTML vždy čerstvé – úpravy textů se projeví hned
+  ExpiresByType text/html "access plus 0 seconds"
+
+  # Styly a skripty – po úpravě změň odkaz, např. style.css?v=2
+  ExpiresByType text/css "access plus 1 week"
+  ExpiresByType application/javascript "access plus 1 week"
+  ExpiresByType text/javascript "access plus 1 week"
+
+  # Obrázky, fonty, audio – mění se zřídka
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType audio/mpeg "access plus 1 year"
+</IfModule>
+
+# Zákaz výpisu obsahu složek (např. /audio/, /img/)
+Options -Indexes

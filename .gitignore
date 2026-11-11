@@ -1,2 +1,6 @@
 # Originální fotky (2048 px) – web používá jen img/thumbs/ a img/full/
 /img/*.jpg
+
+# Audio – originální WAV a MP3 verze se necommitují
+audio/*.wav
+audio/web/
