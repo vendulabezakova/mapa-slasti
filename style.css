@@ -712,6 +712,68 @@ html.is-locked { overflow: hidden; }
 
 .site-footer p { margin: 0; }
 
+/* Tlačítko „Nastavení cookies“ vypadá jako ostatní odkazy v patičce */
+.footer-links__button {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0;
+  font: inherit;
+  font-weight: 500;
+  color: #fff;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+.footer-links__button:hover { color: #ffc2de; }
+
+/* --- Cookie lišta --------------------------------------------------------- */
+
+.consent {
+  position: fixed;
+  inset: auto 0 0;
+  z-index: 60;
+  padding: var(--space-m) var(--gutter) max(var(--space-m), env(safe-area-inset-bottom));
+  color: var(--color-text);
+  background: var(--color-bg);
+  border-top: 1px solid var(--color-border);
+  box-shadow: 0 -0.5rem 1.5rem rgb(22 58 105 / 0.15);
+}
+
+.consent__inner {
+  display: grid;
+  gap: var(--space-s);
+  max-width: var(--container);
+  margin-inline: auto;
+}
+
+.consent__text { margin: 0; font-size: var(--fs-small); }
+
+/* Přijmout i Odmítnout jsou stejně výrazné */
+.consent__actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-s);
+}
+
+.consent .consent__button {
+  min-height: var(--tap);
+  padding: 0 var(--space-m);
+  font-size: 1.0625rem;
+}
+
+@media (min-width: 40em) {
+  .consent__inner {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: var(--space-l);
+  }
+  .consent__actions { grid-template-columns: auto auto; }
+  .consent .consent__button { min-width: 9rem; }
+}
+
 /* --- Větší obrazovky ------------------------------------------------------ */
 
 @media (min-width: 40em) {

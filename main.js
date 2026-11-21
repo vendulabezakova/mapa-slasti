@@ -12,6 +12,10 @@ const SHARED = {
   FORM_ENDPOINT:
     "https://script.google.com/macros/s/AKfycbyYLgf0ooYWeYjOlMfRiO4DddubpMvOfoJrvqhQaQyIYya1bLRi9MJkKtvuyxAp10f5/exec",
 
+  // Google Analytics 4 – Measurement ID (prázdný string = analytika i cookie lišta vypnuté).
+  // GA se načte až po souhlasu v cookie liště; na localhostu se jen vypisuje do konzole.
+  gaId: "G-2LDSSYG6GE",
+
   project: {
     author: "Miloslava Dočkalová",
   },
@@ -103,7 +107,15 @@ const CONFIG_CS = {
     intro: "Máte dotaz k výstavě nebo se chcete zapojit do výzkumu? Napište nám.",
     thesisLabel: "Diplomová práce",
     privacyNote:
-      "Správkyní osobních údajů je Miloslava Dočkalová (kontakt: info@mapaslasti.cz). Osobní údaje (jméno, e-mail a obsah zprávy) zpracovává výhradně za účelem odpovědi na vaši zprávu, případně vašeho zapojení do výzkumu. Údaje jsou uloženy ve službách Google (Google Workspace / Gmail), nikomu dalšímu je nepředáváme a uchováváme je nejdéle 12 měsíců. Souhlas můžete kdykoli odvolat e-mailem na info@mapaslasti.cz.",
+      "Správkyní osobních údajů je Miloslava Dočkalová (kontakt: info@mapaslasti.cz). Osobní údaje (jméno, e-mail a obsah zprávy) zpracovává výhradně za účelem odpovědi na vaši zprávu, případně vašeho zapojení do výzkumu. Údaje jsou uloženy ve službách Google (Google Workspace / Gmail), nikomu dalšímu je nepředáváme a uchováváme je nejdéle 12 měsíců. Souhlas můžete kdykoli odvolat e-mailem na info@mapaslasti.cz. S vaším souhlasem používáme Google Analytics k měření návštěvnosti webu a poslechu nahrávek; souhlas můžete kdykoli změnit odkazem „Nastavení cookies“ v patičce.",
+  },
+
+  consent: {
+    label: "Souhlas s cookies",
+    text: "Používáme analytické cookies (Google Analytics), abychom věděli, kolik lidí web navštíví a které nahrávky poslouchají. Souhlasíte?",
+    accept: "Přijmout",
+    reject: "Odmítnout",
+    settings: "Nastavení cookies",
   },
 
   form: {
@@ -155,7 +167,15 @@ const CONFIG_EN = {
     intro: "Do you have a question about the exhibition, or would you like to take part in the research? Get in touch.",
     thesisLabel: "Master's thesis",
     privacyNote:
-      "The controller of your personal data is Miloslava Dočkalová (contact: info@mapaslasti.cz). Your personal data (name, email address and the content of your message) is processed solely in order to reply to your message or, where relevant, to involve you in the research. The data is stored in Google services (Google Workspace / Gmail), is not shared with anyone else and is kept for no longer than 12 months. You can withdraw your consent at any time by emailing info@mapaslasti.cz.",
+      "The controller of your personal data is Miloslava Dočkalová (contact: info@mapaslasti.cz). Your personal data (name, email address and the content of your message) is processed solely in order to reply to your message or, where relevant, to involve you in the research. The data is stored in Google services (Google Workspace / Gmail), is not shared with anyone else and is kept for no longer than 12 months. You can withdraw your consent at any time by emailing info@mapaslasti.cz. With your consent, we use Google Analytics to measure visits to the website; you can change your choice at any time via the “Cookie settings” link in the footer.",
+  },
+
+  consent: {
+    label: "Cookie consent",
+    text: "We use analytics cookies (Google Analytics) to see how many people visit the website. Do you agree?",
+    accept: "Accept",
+    reject: "Decline",
+    settings: "Cookie settings",
   },
 
   form: {
@@ -173,6 +193,7 @@ const LANG = document.documentElement.lang.toLowerCase().startsWith("en") ? CONF
 const CONFIG = {
   ...LANG,
   FORM_ENDPOINT: SHARED.FORM_ENDPOINT,
+  gaId: SHARED.gaId,
   project: SHARED.project,
   exhibition: { ...SHARED.exhibition, ...LANG.exhibition },
   audio: LANG.audio && {
@@ -227,6 +248,214 @@ function formatDateRange(from, to, locale, fromWord) {
   const noYear = new Intl.DateTimeFormat(locale, { day: "numeric", month: "long" });
   const start = a.getFullYear() === b.getFullYear() ? noYear.format(a) : full.format(a);
   return `${start} – ${full.format(b)}`;
+}
+
+/* --- Analytika (GA4) a souhlas s cookies --------------------------------- */
+// Režim „basic“: gtag.js se vůbec nenačte, dokud návštěvník nedá „Přijmout“.
+// Volba se pamatuje v localStorage („granted“ / „denied“); bez volby se ukáže lišta.
+
+const CONSENT_KEY = "ss-consent";
+const IS_LOCAL =
+  location.protocol === "file:" || ["localhost", "127.0.0.1", "[::1]", ""].includes(location.hostname);
+
+window.dataLayer = window.dataLayer || [];
+function gtag() {
+  window.dataLayer.push(arguments);
+}
+gtag("consent", "default", {
+  analytics_storage: "denied",
+  ad_storage: "denied",
+  ad_user_data: "denied",
+  ad_personalization: "denied",
+});
+
+function readConsent() {
+  try {
+    return localStorage.getItem(CONSENT_KEY);
+  } catch {
+    return null;
+  }
+}
+
+let consentState = readConsent(); // "granted" | "denied" | null
+let gaLoaded = false;
+
+function loadAnalytics() {
+  if (gaLoaded || !CONFIG.gaId) return;
+  gaLoaded = true;
+  if (IS_LOCAL) {
+    console.info("[Sexy Silver] GA4: souhlas udělen – na localhostu se GA nenačítá, události jen vypisuju.");
+    return;
+  }
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(CONFIG.gaId);
+  document.head.append(script);
+  gtag("js", new Date());
+  gtag("config", CONFIG.gaId);
+}
+
+// Po odmítnutí smazat případné GA cookies z dřívějšího souhlasu
+function clearAnalyticsCookies() {
+  const domains = ["", location.hostname, "." + location.hostname.replace(/^www\./, "")];
+  document.cookie.split(";").forEach((cookie) => {
+    const name = cookie.split("=")[0].trim();
+    if (!name.startsWith("_ga")) return;
+    domains.forEach((domain) => {
+      document.cookie = `${name}=; Max-Age=0; path=/${domain ? "; domain=" + domain : ""}`;
+    });
+  });
+}
+
+function setConsent(value) {
+  consentState = value;
+  try {
+    localStorage.setItem(CONSENT_KEY, value);
+  } catch {
+    /* soukromé okno / blokované úložiště – volba platí jen pro tuto návštěvu */
+  }
+  gtag("consent", "update", { analytics_storage: value });
+  if (value === "granted") loadAnalytics();
+  else clearAnalyticsCookies();
+}
+
+// Odeslání události do GA4 – jen se souhlasem
+function track(name, params = {}) {
+  if (!CONFIG.gaId || consentState !== "granted") return;
+  if (IS_LOCAL) {
+    console.info("[Sexy Silver] GA4 událost:", name, params);
+    return;
+  }
+  gtag("event", name, params);
+}
+
+function setupConsent(config) {
+  if (!config.gaId) return;
+  const t = config.consent;
+
+  const banner = el("section", "consent");
+  banner.setAttribute("aria-label", t.label);
+  banner.hidden = true;
+  const inner = el("div", "consent__inner");
+  const text = el("p", "consent__text", nbsp(t.text));
+  const actions = el("div", "consent__actions");
+  const accept = el("button", "button consent__button", t.accept);
+  const reject = el("button", "button consent__button", t.reject);
+  accept.type = reject.type = "button";
+  actions.append(accept, reject);
+  inner.append(text, actions);
+  banner.append(inner);
+  document.body.append(banner);
+
+  // Lišta nesmí zakrýt konec stránky (formulář, patičku) – dole se přidá místo
+  const reserveSpace = () => {
+    document.body.style.paddingBottom = banner.hidden ? "" : banner.offsetHeight + "px";
+  };
+  const show = () => {
+    banner.hidden = false;
+    reserveSpace();
+  };
+  const hide = () => {
+    banner.hidden = true;
+    reserveSpace();
+  };
+  window.addEventListener("resize", reserveSpace);
+
+  accept.addEventListener("click", () => {
+    setConsent("granted");
+    hide();
+  });
+  reject.addEventListener("click", () => {
+    setConsent("denied");
+    hide();
+  });
+
+  // Odkaz v patičce znovu otevře lištu
+  const li = document.createElement("li");
+  const settings = el("button", "footer-links__button", t.settings);
+  settings.type = "button";
+  settings.addEventListener("click", () => {
+    show();
+    accept.focus();
+  });
+  li.append(settings);
+  $(".footer-links")?.append(li);
+
+  if (consentState === "granted") {
+    gtag("consent", "update", { analytics_storage: "granted" });
+    loadAnalytics();
+  } else if (consentState !== "denied") {
+    show();
+  }
+}
+
+// Měření poslechu: spuštění, milníky 25/50/75/100 % a skutečně přehrané sekundy
+function trackAudio(list) {
+  const state = new WeakMap();
+  const get = (audio) => {
+    if (!state.has(audio)) state.set(audio, { played: false, milestones: new Set(), seconds: 0, last: null });
+    return state.get(audio);
+  };
+
+  const flush = (audio) => {
+    const s = get(audio);
+    const seconds = Math.floor(s.seconds);
+    if (seconds < 1) return;
+    s.seconds -= seconds;
+    track("audio_listen", { track: audio.dataset.title, listen_seconds: seconds, transport_type: "beacon" });
+  };
+
+  const milestone = (audio, percent) => {
+    const s = get(audio);
+    if (s.milestones.has(percent)) return;
+    s.milestones.add(percent);
+    track("audio_progress", { track: audio.dataset.title, percent });
+  };
+
+  const on = (type, handler) => list.addEventListener(type, (e) => e.target.matches("audio") && handler(e.target), true);
+
+  on("play", (audio) => {
+    const s = get(audio);
+    s.last = audio.currentTime;
+    if (!s.played) {
+      s.played = true;
+      track("audio_play", { track: audio.dataset.title });
+    }
+  });
+
+  on("timeupdate", (audio) => {
+    const s = get(audio);
+    if (audio.paused || audio.seeking) return;
+    if (s.last !== null) {
+      const delta = audio.currentTime - s.last;
+      if (delta > 0 && delta < 2) s.seconds += delta; // přetočení se nepočítá
+    }
+    s.last = audio.currentTime;
+    if (Number.isFinite(audio.duration) && audio.duration > 0) {
+      const percent = (audio.currentTime / audio.duration) * 100;
+      [25, 50, 75].forEach((m) => percent >= m && milestone(audio, m));
+    }
+  });
+
+  on("seeking", (audio) => (get(audio).last = null));
+  on("seeked", (audio) => (get(audio).last = audio.currentTime));
+  on("pause", flush);
+  on("ended", (audio) => {
+    milestone(audio, 100);
+    flush(audio);
+  });
+
+  // Zamčený telefon / zavřená stránka – odeslat, co se zatím naposlouchalo
+  const flushAll = () => list.querySelectorAll("audio").forEach(flush);
+  document.addEventListener("visibilitychange", () => document.visibilityState === "hidden" && flushAll());
+  window.addEventListener("pagehide", flushAll);
+}
+
+function trackLinks() {
+  $("#map-link")?.addEventListener("click", () => track("click_map", { transport_type: "beacon" }));
+  document.querySelectorAll(".lang-switch a:not([aria-current])").forEach((link) => {
+    link.addEventListener("click", () => track("lang_switch", { to: link.hreflang, transport_type: "beacon" }));
+  });
 }
 
 /* --- Render -------------------------------------------------------------- */
@@ -347,6 +576,8 @@ function renderTracks(config) {
   ["pause", "ended"].forEach((type) =>
     list.addEventListener(type, (e) => e.target.closest(".track").classList.remove("is-playing"), true)
   );
+
+  trackAudio(list);
 }
 
 function renderContact(config) {
@@ -558,6 +789,7 @@ function setupForm(config) {
         const json = await res.json();
         if (!json || json.ok !== true) throw new Error(json?.error || "Neznámá chyba serveru");
       }
+      track("generate_lead", { form_type: data.get("typ"), lang: config.lang });
       form.reset();
       checks.forEach((check) => check.el.removeAttribute("aria-invalid"));
       setStatus(t.success, "success");
@@ -580,6 +812,8 @@ function init(config) {
   renderContact(config);
   setupForm(config);
   renderMap(config);
+  setupConsent(config);
+  trackLinks();
 
   // Obsah se renderuje až teď, proto po načtení znovu doskočit na kotvu (např. #audio)
   if (location.hash) {
